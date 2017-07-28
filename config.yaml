@@ -1,0 +1,9 @@
+home_assistant:
+  host: 127.0.0.1
+  #(Optional) port: 8123
+  #(Optional) api_password: 123456
+buttons:
+  - mac: XX:XX:XX:XX:XX:XX
+    event: toggle_light
+  - mac: YY:YY:YY:YY:YY:YY
+    event: turn_ac_on

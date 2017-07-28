@@ -1,0 +1,11 @@
+[Unit]
+Description=Integrate Amazon Dash Button and Home Assistant
+After=network.target
+
+[Service]
+Type=simple
+User=root
+ExecStart=/usr/bin/python /srv/dash-ha/dash-ha.py
+
+[Install]
+WantedBy=multi-user.target
