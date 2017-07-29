@@ -1,0 +1,9 @@
+FROM resin/rpi-raspbian:jessie
+
+RUN apt-get update && \
+      apt-get install -y python2.7 python-pip python-setuptools python-scapy python-yaml tcpdump && \
+      apt-get clean && \
+      rm -rf /var/lib/apt/lists/*
+COPY dash-ha.py /dash-ha.py
+
+CMD ["python", "-u", "/dash-ha.py"]
