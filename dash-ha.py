@@ -43,7 +43,7 @@ class Handler:
         self.buttons = buttons
 
     def handle(self, pkt):
-        if pkt[DHCP].options[0] == ('message-type', 3):
+        if pkt.haslayer(DHCP) and pkt[DHCP].options[0] == ('message-type', 3):
             print "Found DHCP Discover from: " + pkt.src
             if pkt.src in self.buttons.keys():
                 event = self.buttons.get(pkt.src)
