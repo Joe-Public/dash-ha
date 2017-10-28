@@ -3,6 +3,10 @@ import yaml
 import os
 from requests import post
 
+from requests.packages.urllib3.exceptions import InsecureRequestWarning
+from requests.packages.urllib3 import disable_warnings
+disable_warnings(InsecureRequestWarning)
+
 
 class Config:
     def __init__(self, config_path):
@@ -14,13 +18,19 @@ class Config:
         self.port = str(api_config.get('port', 8123))
         self.password = api_config.get('api_password', '')
 
+        verify_cert = api_config.get('verify_cert', 'true')
+        if verify_cert in ['true', 'True', True]:
+            self.verify_cert = True
+        else:
+            self.verify_cert = False
+
         self.buttons = {}
         for b in dict['buttons']:
             self.buttons[b['mac']] = b['event']
 
 
 class ApiClient:
-    def __init__(self, proto, host, port, password):
+    def __init__(self, proto, host, port, password, verify):
         self.host = host
         self.port = port
         self.password = password
@@ -32,9 +42,10 @@ class ApiClient:
             headers['x-ha-access'] = password
 
         self.headers = headers
+        self.verify = verify
 
     def trigger(self, event):
-        response = post(self.endpoint + event, headers=self.headers)
+        response = post(self.endpoint + event, headers=self.headers, verify=self.verify)
         return response.text
 
 
@@ -56,7 +67,7 @@ if __name__ == '__main__':
     current_path = os.path.dirname(os.path.realpath(__file__))
     config = Config(current_path + '/config.yaml')
 
-    client = ApiClient(config.proto, config.host, config.port, config.password)
+    client = ApiClient(config.proto, config.host, config.port, config.password, config.verify_cert)
     handler = Handler(client, config.buttons)
     sniff(prn=handler.handle,
           filter="udp and src host 0.0.0.0 and dst port 67",

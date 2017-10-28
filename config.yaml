@@ -3,6 +3,7 @@ home_assistant:
   #(Optional) proto: http
   #(Optional) port: 8123
   #(Optional) api_password: 123456
+  #(Optional) verify_cert: true
 buttons:
   - mac: XX:XX:XX:XX:XX:XX
     event: toggle_light
