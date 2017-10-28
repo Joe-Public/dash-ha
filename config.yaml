@@ -1,5 +1,6 @@
 home_assistant:
   host: 127.0.0.1
+  #(Optional) proto: http
   #(Optional) port: 8123
   #(Optional) api_password: 123456
 buttons:

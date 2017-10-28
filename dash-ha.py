@@ -10,6 +10,7 @@ class Config:
 
         api_config = dict['home_assistant']
         self.host = api_config['host']
+        self.proto = api_config.get('proto', 'http')
         self.port = str(api_config.get('port', 8123))
         self.password = api_config.get('api_password', '')
 
@@ -19,12 +20,12 @@ class Config:
 
 
 class ApiClient:
-    def __init__(self, host, port, password):
+    def __init__(self, proto, host, port, password):
         self.host = host
         self.port = port
         self.password = password
 
-        self.endpoint = 'http://' + host + ':' + port + '/api/events/'
+        self.endpoint = proto + '://' + host + ':' + port + '/api/events/'
 
         headers = {'content-type': 'application/json'}
         if len(password) > 0:
@@ -55,7 +56,7 @@ if __name__ == '__main__':
     current_path = os.path.dirname(os.path.realpath(__file__))
     config = Config(current_path + '/config.yaml')
 
-    client = ApiClient(config.host, config.port, config.password)
+    client = ApiClient(config.proto, config.host, config.port, config.password)
     handler = Handler(client, config.buttons)
     sniff(prn=handler.handle,
           filter="udp and src host 0.0.0.0 and dst port 67",
