@@ -3,9 +3,8 @@ import yaml
 import os
 from requests import post
 
-from requests.packages.urllib3.exceptions import InsecureRequestWarning
 from requests.packages.urllib3 import disable_warnings
-disable_warnings(InsecureRequestWarning)
+disable_warnings
 
 
 class Config:
