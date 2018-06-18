@@ -1,9 +1,7 @@
 home_assistant:
-  host: 127.0.0.1
-  #(Optional) proto: http
-  #(Optional) port: 8123
-  #(Optional) api_password: 123456
-  #(Optional) verify_cert: true
+  api_endpoint: 'http://127.0.0.1:8123/api'
+  api_password: ''
+  verify_cert: false
 buttons:
   - mac: XX:XX:XX:XX:XX:XX
     event: toggle_light

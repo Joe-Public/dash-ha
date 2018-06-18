@@ -6,9 +6,9 @@ Integrate Amazon Dash Button and Home Assistant
 
 ``` yaml
 home_assistant:
-  host: 127.0.0.1
-  port: 8123
-  # (Optional) api_password: PASSWORD
+  api_endpoint: 'http://127.0.0.1:8123/api'
+  api_password: ''
+  verify_cert: false
 buttons:
   - mac: XX:XX:XX:XX:XX:XX
     event: dash_button_nescafe
