@@ -1,6 +1,7 @@
 home_assistant:
   api_endpoint: 'http://127.0.0.1:8123/api'
-  api_password: ''
+  access_token: ''
+  # api_password: ''
   verify_cert: false
 buttons:
   - mac: XX:XX:XX:XX:XX:XX

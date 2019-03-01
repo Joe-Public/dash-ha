@@ -14,6 +14,7 @@ class Config:
         api_config = dict['home_assistant']
         self.endpoint = api_config.get('api_endpoint', 'http://127.0.0.18123/api')
         self.password = api_config.get('api_password', '')
+        self.access_token = api_config.get('access_token', '')
 
         verify_cert = api_config.get('verify_cert', 'true')
         if verify_cert in ['true', 'True', True]:
@@ -27,11 +28,13 @@ class Config:
 
 
 class ApiClient:
-    def __init__(self, endpoint, password, verify):
+    def __init__(self, endpoint, password, access_token, verify):
         self.endpoint = endpoint + '/events/'
 
         headers = {'content-type': 'application/json'}
-        if len(password) > 0:
+        if len(access_token) > 0:
+            headers['Authorization'] = 'Bearer ' + access_token
+        elif len(password) > 0:
             headers['x-ha-access'] = password
 
         self.headers = headers
@@ -60,7 +63,7 @@ if __name__ == '__main__':
     current_path = os.path.dirname(os.path.realpath(__file__))
     config = Config(current_path + '/config.yaml')
 
-    client = ApiClient(config.endpoint, config.password, config.verify_cert)
+    client = ApiClient(config.endpoint, config.password, config.access_token, config.verify_cert)
     handler = Handler(client, config.buttons)
     sniff(prn=handler.handle,
           filter="udp and src host 0.0.0.0 and dst port 67",
