@@ -9,7 +9,7 @@ disable_warnings
 
 class Config:
     def __init__(self, config_path):
-        dict = yaml.load(open(config_path))
+        dict = yaml.load(open(config_path), Loader=yaml.FullLoader)
 
         api_config = dict['home_assistant']
         self.endpoint = api_config.get('api_endpoint', 'http://127.0.0.18123/api')
